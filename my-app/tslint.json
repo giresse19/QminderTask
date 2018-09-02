@@ -1,0 +1,61 @@
+{
+    "defaultSeverity": "warning",
+    "rulesDirectory": [
+        "node_modules/tslint-microsoft-contrib"
+    ],
+    "rules": {
+        "member-ordering": [true, "variables-before-functions"],
+
+        "curly": true,
+        "no-arg": true,
+        "comment-format": [true, "check-space"],
+        "no-conditional-assignment": true,
+        "no-debugger": true,
+        "no-duplicate-variable": true,
+        "no-empty": true,
+        "no-eval": true,
+        "no-unused-variable": [
+            true,
+            "react",
+            {
+                "ignore-pattern": "^_"
+            }
+        ],
+        "no-internal-module": true,
+        "no-inferrable-types": true,
+        "no-reference": true,
+        "triple-equals": [
+            true,
+            "allow-null-check"
+        ],
+
+        "eofline": true,
+        "indent": [true, "spaces"],
+        "no-trailing-whitespace": true,
+
+        "class-name": true,
+        "interface-name": [true, "never-prefix"],
+        "no-angle-bracket-type-assertion": true,
+        "one-line": [
+            true,
+            "check-catch",
+            "check-else",
+            "check-finally",
+            "check-open-brace",
+            "check-whitespace"
+        ],
+        "quotemark": [true, "single", "jsx-double", "avoid-escape"],
+        "semicolon": [true, "always"],
+        "variable-name": [true, "ban-keywords", "allow-pascal-case", "check-format"],
+        "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-module", "check-separator", "check-type", "check-typecast"],
+        "no-consecutive-blank-lines": [true, 2],
+
+        "no-for-in": true,
+        "promise-must-complete": true,
+        "prefer-const": true,
+        "prefer-array-literal": true,
+        "no-var-keyword": true,
+        "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
+        "no-console": [true, "log", "error"]
+    }
+}
