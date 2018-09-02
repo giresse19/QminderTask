@@ -10,59 +10,46 @@ import {
 } from "react-google-maps"
 
 const MapWithAMarker = compose(withScriptjs, withGoogleMap)(props => {
-
+console.log(props);
   return (
-    /*     <GoogleMap defaultZoom={8} defaultCenter={{ lat: 58.378025, lng: 26.728493 }}>
-          {props.markers.map(marker => {
-            const onClick = props.onClick.bind(this, marker)
-            return (
-              <Marker
-                key={marker.id}
-                onClick={onClick}
-                position={{ lat: marker.location.lat, lng: marker.location.lng }}
-              >
-                {props.selectedMarker === marker &&
-                  <InfoWindow>
-                    <div>
-                      {marker.name}
-                    </div>
-                  </InfoWindow>}
-                }
-              </Marker>
-            )
-          })}
-        </GoogleMap> */
-    null
+    <GoogleMap defaultZoom={8} defaultCenter={{ lat: 29.5, lng: -95 }}>
+      {props.markers.map(marker => {
+        const onClick = props.onClick.bind(this, marker)
+        return (
+          <Marker
+            key={marker.id}
+            onClick={onClick}
+            position={{ lat: marker.latitude, lng: marker.longitude }}
+          >
+            {props.selectedMarker === marker &&
+              <InfoWindow>
+                <div>
+                  {marker.shelter}
+                </div>
+              </InfoWindow>}
+            }
+          </Marker>
+        )
+      })}
+    </GoogleMap>
   )
 })
 
 export default class ShelterMap extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
-      filtered: [],
-      selectedMarker: false,
+      shelters: [],
+      selectedMarker: false
     }
   }
-
   componentDidMount() {
-    this.mapData();
-  }
-
-  handleClick = (marker, event) => {
-    this.setState({ selectedMarker: marker })
-  }
-
-  mapData = () => {
-    // fetch data from tartu city and tartu bus stop(bs)
     const Query = `Burger Joint`;
     const Url = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`;
     const Urlbs = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlongbs}&query=${Query}&v=${VERSION}&radius=${radius}`;
-
+let self = this;
     let dataBs = null;
     let dataT = null;
-
     fetch(Url)
       .then(function (response) {
         return response.json();
@@ -79,7 +66,7 @@ export default class ShelterMap extends Component {
             dataBs = json1;
             let MoreVenues = dataT.response.venues;
             let smallVenues = dataBs.response.venues;
-            let filteredName = [];
+            let filteredData = [];
 
             for (var i = 0; i < MoreVenues.length; i++) {
               let matchFound = false;
@@ -90,26 +77,29 @@ export default class ShelterMap extends Component {
                 }
               }
               if (!matchFound) {
-                filteredName.push(MoreVenues[i]);
+                filteredData.push(MoreVenues[i]);
               }
-            }
-            debugger;
-            console.log(filteredName);
-            return filteredName;
+            }            
+            console.log(filteredData);
+            return filteredData;
           })
-      })
-      .then(filteredName => {      
-       this.setState({
-          filtered: filteredName
+      })     
+      .then(filteredData => {        
+        self.setState({
+          shelters: filteredData
         })
       })
   }
 
+  handleClick = (marker, event) => {
+    // console.log({ marker })
+    this.setState({ selectedMarker: marker })
+  }
   render() {
     return (
       <MapWithAMarker
         selectedMarker={this.state.selectedMarker}
-        markers={this.state.filtered}
+        markers={this.state.shelters}
         onClick={this.handleClick}
         googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
         loadingElement={<div style={{ height: `100%` }} />}

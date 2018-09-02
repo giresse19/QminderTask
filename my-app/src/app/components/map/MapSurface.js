@@ -10,9 +10,9 @@ import {
 } from "react-google-maps"
 
 const MapWithAMarker = compose(withScriptjs, withGoogleMap)(props => {
-
+console.log(props);
   return (
-    /*     <GoogleMap defaultZoom={8} defaultCenter={{ lat: 58.378025, lng: 26.728493 }}>
+       <GoogleMap defaultZoom={8} defaultCenter={{ lat: 58.378025, lng: 26.728493 }}>
           {props.markers.map(marker => {
             const onClick = props.onClick.bind(this, marker)
             return (
@@ -31,12 +31,11 @@ const MapWithAMarker = compose(withScriptjs, withGoogleMap)(props => {
               </Marker>
             )
           })}
-        </GoogleMap> */
-    null
+        </GoogleMap>  
   )
 })
 
-export default class ShelterMap extends Component {
+export default class MapSurface extends Component {
 
   constructor(props) {
     super(props)
@@ -79,7 +78,7 @@ export default class ShelterMap extends Component {
             dataBs = json1;
             let MoreVenues = dataT.response.venues;
             let smallVenues = dataBs.response.venues;
-            let filteredName = [];
+            let filteredData = [];
 
             for (var i = 0; i < MoreVenues.length; i++) {
               let matchFound = false;
@@ -90,22 +89,24 @@ export default class ShelterMap extends Component {
                 }
               }
               if (!matchFound) {
-                filteredName.push(MoreVenues[i]);
+                filteredData.push(MoreVenues[i]);
               }
             }
-            debugger;
-            console.log(filteredName);
-            return filteredName;
+            debugger; 
+            console.log(filteredData);
+            return filteredData;
           })
-      })
-      .then(filteredName => {      
+      })     
+      .then(filteredData => {
+        
        this.setState({
-          filtered: filteredName
+          filtered: filteredData
         })
       })
   }
 
   render() {
+    /* this.mapData(); */
     return (
       <MapWithAMarker
         selectedMarker={this.state.selectedMarker}
