@@ -3,12 +3,13 @@ import React from 'react'
 import classes from './Toolbar.css'
 
 const toolbar = (props) => (
-  <header className={classes.Toolbar}>
-    <div style={{padding:'5px' }}> Venues</div>      
-    <div>
-      Gathering data...
- </div>
+
+  <header className={classes.Toolbar}>   
+    <div ><strong> <h1>Venues </h1></strong> </div>    
+    <div  >  Gathering data... </div>
   </header>
 );
 
-export default toolbar  
+export default toolbar
+
+/* style={{marginLeft:' 50px'}} */

@@ -62,19 +62,20 @@ export default class ShelterMap extends Component {
               }
               if (!matchFound) {
                 filteredData.push(MoreVenues[i]);
-                async function fetchAsync() {
+                async function fetchAsyncPic() {
                   let response = await fetch(`${SERVERPICURL}/${MoreVenues[i].id}/photos?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`);
                   let data = await response.json();
                   return data;
                 }
-                fetchAsync()
+                fetchAsyncPic()
                   .then((data) => {
                     if (data.response.photos.count > 0) {
                       latestPics.push(data.response.photos.items[0]);
                       console.log(latestPics);
                       /* data.response.photos.items[0].prefix + 'original' + data.response.photos.items[0].suffix */
                     }
-                  });
+                  })
+                  .catch(reason => console.log(reason.message))
               }
             }
             self.setState({
@@ -86,12 +87,6 @@ export default class ShelterMap extends Component {
       })
   }
 
-/*   shouldComponentUpdate(nextState) {
-    if (this.state.latestPicture !== nextState.latestPicture) {
-      return true
-    }
-  } */
-
   handleClick = (marker, event) => {
     this.setState({ selectedMarker: marker })
   }
@@ -99,8 +94,8 @@ export default class ShelterMap extends Component {
   render() {
 
     return (
-      <div style={{ height: '100%', width: '100%' }}>
-        <div  /* className="classes.MapData" */ style={{ marginTop: '16px', height: '400px', width: '80%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', padding: 1, marginBottom: 10, margin: 'auto' }} >
+      <div style={{ height: '90%', width: '100%' }}>
+        <div  /* className="classes.MapData" */ style={{ height: '500px', width: '100%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', padding: 1, margin: 'auto' }} >
           <MapWithAMarker
             selectedMarker={this.state.selectedMarker}
             markers={this.state.filtered}
@@ -113,7 +108,7 @@ export default class ShelterMap extends Component {
             circles={this.state.filteredBs}
           />
         </div>
-        <div  /* className="classes.MapPicture" */ style={{ flex: '1', padding: 1, justifyContent: 'space-between', marginTop: '20px', height: '300px', display: 'flex', flexDirection: 'row', width: '80%', marginBottom: 10, margin: 'auto' }}  >
+        <div  /* className="classes.MapPicture" */ style={{ padding: 1, justifyContent: 'space-between', height: '500px', display: 'flex', flexDirection: 'row', width: '100%', margin: 'auto' }}  >
           <MapPicture
             pictures={this.state.latestPicture}
           />
