@@ -51,6 +51,8 @@ export default class ShelterMap extends Component {
             let MoreVenues = dataT.response.venues;
             let smallVenues = dataBs.response.venues;
 
+            // getting data for joints out of 1000m from bus station
+
             for (var i = 0; i < MoreVenues.length; i++) {
               let matchFound = false;
               for (var j = 0; j < smallVenues.length; j++) {
@@ -62,6 +64,7 @@ export default class ShelterMap extends Component {
               }
               if (!matchFound) {
                 filteredData.push(MoreVenues[i]);
+                // getting images of latest joints base on their id prop
                 async function fetchAsyncPic() {
                   let response = await fetch(`${SERVERPICURL}/${MoreVenues[i].id}/photos?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`);
                   let data = await response.json();
@@ -71,7 +74,7 @@ export default class ShelterMap extends Component {
                   .then((data) => {
                     if (data.response.photos.count > 0) {
                       latestPics.push(data.response.photos.items[0]);
-                      console.log(latestPics);                      
+                      console.log(latestPics);
                     }
                   })
                   .catch(reason => console.log(reason.message))
@@ -94,7 +97,7 @@ export default class ShelterMap extends Component {
 
     return (
       <div style={{ height: '90%', width: '100%' }}>
-        <div style={{ height:'500px', width:'100%', display:'flex', flexFlow:'row nowrap', justifyContent:'center', padding:'1px', margin: 'auto' }} >
+        <div style={{ height: '500px', width: '100%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', padding: '1px', margin: 'auto' }} >
           <MapWithAMarker
             selectedMarker={this.state.selectedMarker}
             markers={this.state.filtered}
@@ -107,7 +110,7 @@ export default class ShelterMap extends Component {
             circles={this.state.filteredBs}
           />
         </div>
-        <div  style={{ padding:'1px', justifyContent:'space-between', height:'500px', display:'flex', flexDirection: 'row', width:'100%', margin:'auto' }}  >
+        <div style={{ padding: '1px', justifyContent: 'space-between', height: '500px', display: 'flex', flexDirection: 'row', width: '100%', margin: 'auto' }}  >
           <MapPicture
             pictures={this.state.latestPicture}
           />
