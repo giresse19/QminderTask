@@ -1,11 +1,13 @@
 import React from 'react';
 
 import Wrapper from '../../hComp/Wrapper';
+import classes from './Layout.css'
+import Toolbar from '../Navigation/Toolbar/Toolbar';
 
 const layout = (props) => (
- <Wrapper>
-     <div> Toolbar</div>
-     <main>
+ <Wrapper >
+     <Toolbar/>
+     <main className={classes.Content}>
          {props.children}
      </main>
  </Wrapper>

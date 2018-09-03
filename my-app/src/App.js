@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
 import Layout from './app/components/layout/layout'
-import MapDisplay from './app/containers/MapDisplay'
+import MapData from './app/containers/MapData'
 
 
 class App extends Component {
   render() {
     return (
-      <div>
-       <Layout>        
-        <MapDisplay />    
-       </Layout>
-      </div>
+      <Layout>
+        <MapData />
+      </Layout>
     );
   }
 }

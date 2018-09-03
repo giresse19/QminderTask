@@ -3,6 +3,7 @@ import { SERVERPICURL, API_KEY, CLIENT_ID, CLIENT_SECRET, SERVERURL, VERSION, la
 import MapWithAMarker from '../components/map/MapWithAMarker';
 import MapPicture from '../components/map/MapPicture';
 /* import Wrapper from '../hComp/Wrapper' */
+import classes from './MapData.css'
 
 export default class ShelterMap extends Component {
 
@@ -12,7 +13,8 @@ export default class ShelterMap extends Component {
       filtered: [],
       filteredBs: [],
       latestPicture: [],
-      selectedMarker: false
+      selectedMarker: false,
+      defaultZoom: 12
     }
   }
 
@@ -21,11 +23,11 @@ export default class ShelterMap extends Component {
     const Query = `Burger Joint`;
     const Url = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`;
     const Urlbs = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlongbs}&query=${Query}&v=${VERSION}&radius=${radius}`;
-    
+
     let self = this;
     let dataBs = null;
     let dataT = null;
-    
+
     fetch(Url)
       .then(function (response) {
         return response.json();
@@ -53,24 +55,24 @@ export default class ShelterMap extends Component {
               for (var j = 0; j < smallVenues.length; j++) {
                 if (smallVenues[j].id === MoreVenues[i].id) {
                   matchFound = true;
-                  filteredDataBs.push(smallVenues[j]);                
+                  filteredDataBs.push(smallVenues[j]);
                   break;
                 }
               }
               if (!matchFound) {
-                filteredData.push(MoreVenues[i]);              
+                filteredData.push(MoreVenues[i]);
                 async function fetchAsync() {
-                  // await response of fetch call  
                   let response = await fetch(`${SERVERPICURL}/${MoreVenues[i].id}/photos?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`);
                   let data = await response.json();
                   return data;
                 }
                 fetchAsync()
                   .then((data) => {
-                    /* console.log(data) */
+
                     if (data.response.photos.count > 0) {
-                      latestPics.push(data.response.photos.items[0].prefix + 'original' + data.response.photos.items[0].suffix);
-                      /* console.log(latestPics); */
+                      latestPics.push(data.response.photos.items[0]);
+                      console.log(latestPics);
+                      /* data.response.photos.items[0].prefix + 'original' + data.response.photos.items[0].suffix */
                     }
                   });
               }
@@ -78,7 +80,7 @@ export default class ShelterMap extends Component {
             self.setState({
               filtered: filteredData,
               latestPicture: latestPics,
-              filteredBs:filteredDataBs
+              filteredBs: filteredDataBs
             })
           })
       })
@@ -91,20 +93,25 @@ export default class ShelterMap extends Component {
   render() {
 
     return (
-     <div>
-        <MapWithAMarker
-          selectedMarker={this.state.selectedMarker}
-          markers={this.state.filtered}
-          onClick={this.handleClick}
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `400px` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
-          circles={this.state.filteredBs}
-        />
-        <MapPicture
-          pictures={this.state.latestPicture}
-        />
+      <div>
+        <div style={{ marginTop:'16px', height: 400, width: '80%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', padding: 0, marginBottom:10, margin:'auto' }}>
+          <MapWithAMarker
+            selectedMarker={this.state.selectedMarker}
+            markers={this.state.filtered}
+            defaultZoom={this.state.defaultZoom}
+            onClick={this.handleClick}
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+            loadingElement={<div style={{ height: `100%` }} />}
+            containerElement={<div style={{ width: "80%", marginLeft: 0 }} />}
+            mapElement={<div style={{ height: `100%`, }} />}
+            circles={this.state.filteredBs}
+          />
+        </div>
+        <div style={{justifyContent: 'center', padding: 0 }}>
+          <MapPicture
+            pictures={this.state.latestPicture}
+          />
+        </div>
       </div>
     )
   }

@@ -10,9 +10,9 @@ import {
 } from "react-google-maps"
 
 const MapWithAMarker = compose(withScriptjs, withGoogleMap)(props => {
-  console.log(props);
+  
   return (
-    <GoogleMap defaultZoom={12} defaultCenter={{ lat: 58.378025, lng: 26.728493 }}>
+    <GoogleMap defaultZoom={props.defaultZoom} defaultCenter={{ lat: 58.378025, lng: 26.728493 }}>
       {props.markers.map(marker => {
         const onClick = props.onClick.bind(this, marker)
         return (
