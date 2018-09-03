@@ -1,6 +1,6 @@
 # Qminder
 
-Qminder Front-end Challenge Build with React.js, build g React and JavaScript.
+Qminder Front-end Challenge Build with React.js, build  React and JavaScript.
 
 ## Getting started
 
@@ -13,7 +13,8 @@ Please make sure that you have Node 6 or above. You can check by running `node -
 ```sh
 > npm install -g yarn(if you don't have yarn installed) else, just run:  yarn
 > yarn start (to start local dev server)
+> yarn test (to run the unit test)
 ```
 
-1. The serve script will build Qminder and boot up a server at `localhost:3000`.
+1. The start script will build Qminder and boot up a server at `localhost:3000`.
 

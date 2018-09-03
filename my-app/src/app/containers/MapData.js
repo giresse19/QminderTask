@@ -1,8 +1,9 @@
+/* eslint-disable no-loop-func */
 import React, { Component } from "react"
 import { SERVERPICURL, API_KEY, CLIENT_ID, CLIENT_SECRET, SERVERURL, VERSION, latlong, latlongbs, radius } from '../config/config.dev';
 import MapWithAMarker from '../components/map/MapWithAMarker';
 import MapPicture from '../components/map/MapPicture';
-/* import Wrapper from '../hComp/Wrapper' */
+
 import classes from './MapData.css'
 
 export default class ShelterMap extends Component {
@@ -68,7 +69,6 @@ export default class ShelterMap extends Component {
                 }
                 fetchAsync()
                   .then((data) => {
-
                     if (data.response.photos.count > 0) {
                       latestPics.push(data.response.photos.items[0]);
                       console.log(latestPics);
@@ -86,6 +86,12 @@ export default class ShelterMap extends Component {
       })
   }
 
+/*   shouldComponentUpdate(nextState) {
+    if (this.state.latestPicture !== nextState.latestPicture) {
+      return true
+    }
+  } */
+
   handleClick = (marker, event) => {
     this.setState({ selectedMarker: marker })
   }
@@ -93,21 +99,21 @@ export default class ShelterMap extends Component {
   render() {
 
     return (
-      <div>
-        <div style={{ marginTop:'16px', height: 400, width: '80%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', padding: 0, marginBottom:10, margin:'auto' }}>
+      <div style={{ height: '100%', width: '100%' }}>
+        <div  /* className="classes.MapData" */ style={{ marginTop: '16px', height: '400px', width: '80%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', padding: 1, marginBottom: 10, margin: 'auto' }} >
           <MapWithAMarker
             selectedMarker={this.state.selectedMarker}
             markers={this.state.filtered}
             defaultZoom={this.state.defaultZoom}
             onClick={this.handleClick}
             googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-            loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ width: "80%", marginLeft: 0 }} />}
+            loadingElement={<div style={{ height: `100%`, }} />}
+            containerElement={<div style={{ height: `100%`, width: "80%", marginLeft: 0 }} />}
             mapElement={<div style={{ height: `100%`, }} />}
             circles={this.state.filteredBs}
           />
         </div>
-        <div style={{justifyContent: 'center', padding: 0 }}>
+        <div  /* className="classes.MapPicture" */ style={{ flex: '1', padding: 1, justifyContent: 'space-between', marginTop: '20px', height: '300px', display: 'flex', flexDirection: 'row', width: '80%', marginBottom: 10, margin: 'auto' }}  >
           <MapPicture
             pictures={this.state.latestPicture}
           />
