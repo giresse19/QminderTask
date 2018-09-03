@@ -4,7 +4,7 @@ import { SERVERPICURL, API_KEY, CLIENT_ID, CLIENT_SECRET, SERVERURL, VERSION, la
 import MapWithAMarker from '../components/map/MapWithAMarker';
 import MapPicture from '../components/map/MapPicture';
 
-import classes from './MapData.css'
+/* import classes from './MapData.css' */
 
 export default class ShelterMap extends Component {
 
@@ -71,8 +71,7 @@ export default class ShelterMap extends Component {
                   .then((data) => {
                     if (data.response.photos.count > 0) {
                       latestPics.push(data.response.photos.items[0]);
-                      console.log(latestPics);
-                      /* data.response.photos.items[0].prefix + 'original' + data.response.photos.items[0].suffix */
+                      console.log(latestPics);                      
                     }
                   })
                   .catch(reason => console.log(reason.message))
@@ -95,7 +94,7 @@ export default class ShelterMap extends Component {
 
     return (
       <div style={{ height: '90%', width: '100%' }}>
-        <div  /* className="classes.MapData" */ style={{ height: '500px', width: '100%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', padding: 1, margin: 'auto' }} >
+        <div style={{ height:'500px', width:'100%', display:'flex', flexFlow:'row nowrap', justifyContent:'center', padding:'1px', margin: 'auto' }} >
           <MapWithAMarker
             selectedMarker={this.state.selectedMarker}
             markers={this.state.filtered}
@@ -108,7 +107,7 @@ export default class ShelterMap extends Component {
             circles={this.state.filteredBs}
           />
         </div>
-        <div  /* className="classes.MapPicture" */ style={{ padding: 1, justifyContent: 'space-between', height: '500px', display: 'flex', flexDirection: 'row', width: '100%', margin: 'auto' }}  >
+        <div  style={{ padding:'1px', justifyContent:'space-between', height:'500px', display:'flex', flexDirection: 'row', width:'100%', margin:'auto' }}  >
           <MapPicture
             pictures={this.state.latestPicture}
           />

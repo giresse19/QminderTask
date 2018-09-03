@@ -1,18 +1,21 @@
+
 .Toolbar {
     height: 56px;
     width: 96%;
     position: absolute;
     top:0;       
-    display: flex;
+    display: inline-flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 160px;
     box-sizing: border-box;
     z-index: 90;
     text-decoration: none;
-    color: white;
+    color: white;  
+    max-width: 1500px;   
 }
 
-.Toolbar nav {
-    height: 100%;
-}
+@media  (max-width: 800px) {
+    .floated_div { display: none; }
+    }
+

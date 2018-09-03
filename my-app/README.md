@@ -1,6 +1,6 @@
 # Qminder
 
-Qminder Front-end Challenge Build with React.js, build  React and JavaScript.
+Qminder Front-end Challenge Build with React.js and JavaScript.
 
 ## Getting started
 
