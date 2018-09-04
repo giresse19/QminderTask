@@ -25,7 +25,7 @@ export default class ShelterMap extends Component {
     const Url = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`;
     const Urlbs = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlongbs}&query=${Query}&v=${VERSION}&radius=${radius}`;
 
-    let self = this;
+    var self = this;
     let dataBs = null;
     let dataT = null;
 
@@ -96,8 +96,8 @@ export default class ShelterMap extends Component {
   render() {
 
     return (
-      <div style={{ height: '90%', width: '100%' }}>
-        <div style={{ height: '500px', width: '100%', display: 'flex', flexFlow: 'row nowrap', justifyContent: 'center', padding: '1px', margin: 'auto' }} >
+      <div style={{height: '90%', width: '100%' }}>
+        <div style={{ height: '500px', width: '100%', display: 'flex', flexFlow: 'row nowrap' }} >
           <MapWithAMarker
             selectedMarker={this.state.selectedMarker}
             markers={this.state.filtered}
@@ -105,12 +105,12 @@ export default class ShelterMap extends Component {
             onClick={this.handleClick}
             googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
             loadingElement={<div style={{ height: `100%`, }} />}
-            containerElement={<div style={{ height: `100%`, width: "80%", marginLeft: 0 }} />}
+            containerElement={<div style={{ height: `100%`, width: "100%" }} />}
             mapElement={<div style={{ height: `100%`, }} />}
             circles={this.state.filteredBs}
           />
         </div>
-        <div style={{ padding: '1px', justifyContent: 'space-between', height: '500px', display: 'flex', flexDirection: 'row', width: '100%', margin: 'auto' }}  >
+        <div style={{display: 'flex', flexDirection: 'row', width: '100%', margin: '15px' }}  >
           <MapPicture
             pictures={this.state.latestPicture}
           />

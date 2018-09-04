@@ -1,7 +1,7 @@
 
 .Toolbar {
     height: 56px;
-    width: 96%;
+    width: 117%;
     position: absolute;
     top:0;       
     display: inline-flex;
@@ -17,5 +17,5 @@
 
 @media  (max-width: 800px) {
     .floated_div { display: none; }
-    }
+}
 

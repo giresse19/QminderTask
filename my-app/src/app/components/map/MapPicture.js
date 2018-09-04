@@ -2,13 +2,13 @@ import React from 'react';
 // import classes from './MapPicture.css'
 
 const MapPicture = (props) => (
-  <div style={{justifyContent: 'space-evenly', height: '100px',  width: '25%', margin: 'auto' }}>
+  <div style={{justifyContent: 'space-evenly', height: 'auto',  width: '25%', padding: '10px' }}>
     {props.pictures.map(picture =>
       <img
         key={picture.id}
         src={[picture.prefix + 'original' + picture.suffix]}
         alt={"burger"}      
-        style={{ width: '100%', height: '100px', padding: '5', position:'relative'}}  
+        style={{ width: '100%'}}  
       />
     )}
   </div>
