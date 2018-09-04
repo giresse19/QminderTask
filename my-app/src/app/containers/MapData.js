@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import { SERVERPICURL, API_KEY, CLIENT_ID, CLIENT_SECRET, SERVERURL, VERSION, latlong, latlongbs, radius } from '../config/config.dev';
 import MapWithAMarker from '../components/map/MapWithAMarker';
 import MapPicture from '../components/map/MapPicture';
-/* import classes from './MapData.css' */
+import classes from './MapData.css'
 
 export default class ShelterMap extends Component {
 
@@ -25,7 +25,7 @@ export default class ShelterMap extends Component {
   };
 
   getDataToChangeState = () => {
-    
+
     const Query = `Burger Joint`;
     const Url = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`;
     const Urlbs = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlongbs}&query=${Query}&v=${VERSION}&radius=${radius}`;
@@ -55,6 +55,7 @@ export default class ShelterMap extends Component {
             dataBs = json1;
             let MoreVenues = dataT.response.venues;
             let smallVenues = dataBs.response.venues;
+            
 
             // getting data for joints out of 1000m from bus station
 
@@ -80,12 +81,24 @@ export default class ShelterMap extends Component {
                   .then((data) => {
                     if (data.response.photos.count > 0) {
                       latestPics.push(data.response.photos.items[0]);
-                      console.log(latestPics);
+                      latestPics.push(data.response.photos.items[0]);
+                      latestPics.push(data.response.photos.items[0]);
+                      latestPics.push(data.response.photos.items[0]);
+                      latestPics.push(data.response.photos.items[0]);
+                      latestPics.push(data.response.photos.items[0]);
+                      latestPics.push(data.response.photos.items[0]);
+
+                      /*       console.log('storing pictures');
+                            console.log(latestPics); */
                     }
                   })
                   .catch(reason => console.log(reason.message))
               }
             }
+
+            console.log('printing pictures before render');
+            console.log(latestPics);
+
             self.setState({
               filtered: filteredData,
               latestPicture: latestPics,
@@ -103,8 +116,8 @@ export default class ShelterMap extends Component {
   render() {
 
     return (
-      <div style={{ height: '90%', width: '100%' }}>
-        <div style={{ height: '500px', width: '100%', display: 'flex', flexFlow: 'row nowrap' }} >
+      <div className={classes.mainContainer} >
+        <div className={classes.mapContainer}>
           <MapWithAMarker
             selectedMarker={this.state.selectedMarker}
             markers={this.state.filtered}
@@ -117,7 +130,7 @@ export default class ShelterMap extends Component {
             circles={this.state.filteredBs}
           />
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', width: '100%', margin: '15px' }}  >
+        <div className={classes.picContainer} >
           <MapPicture
             pictures={this.state.latestPicture}
           />

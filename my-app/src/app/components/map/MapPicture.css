@@ -1,0 +1,14 @@
+.pictureStyle {
+    justify-content: space-evenly;
+     height: auto;
+      width: 100%;
+}
+.individualPic {
+    width: 23%;
+    margin-left: 1%;
+     border: 1px solid blue;
+}
+
+@media  (max-width: 450px) {
+    .individualPic { width: 47%; }
+}

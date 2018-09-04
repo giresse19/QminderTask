@@ -1,13 +1,13 @@
 
 .Toolbar {
     height: 56px;
-    width: 117%;
+    width: 100%;
     position: absolute;
     top:0;       
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 160px;
+    padding: 0 90px;
     box-sizing: border-box;
     z-index: 90;
     text-decoration: none;
@@ -15,7 +15,7 @@
     max-width: 1500px;   
 }
 
-@media  (max-width: 800px) {
+@media  (max-width: 450px) {
     .floated_div { display: none; }
 }
 

@@ -1,16 +1,26 @@
 import React from 'react';
-// import classes from './MapPicture.css'
+import classes from './MapPicture.css'
 
-const MapPicture = (props) => (
-  <div style={{justifyContent: 'space-evenly', height: 'auto',  width: '25%', padding: '10px' }}>
-    {props.pictures.map(picture =>
-      <img
-        key={picture.id}
-        src={[picture.prefix + 'original' + picture.suffix]}
-        alt={"burger"}      
-        style={{ width: '100%'}}  
-      />
-    )}
-  </div>
-);
+const MapPicture = (props) => {
+console.log(props.pictures.length);
+console.log(typeof props.pictures);
+console.log(Object.entries(props.pictures));
+
+  return (
+    <div className={classes.pictureStyle}>
+    
+      {props.pictures.map(picture => {
+        return (
+          <img
+            className={classes.individualPic}
+             key={picture.id + Math.random() + Math.random()} 
+            src={[picture.prefix + 'original' + picture.suffix]}
+            alt={"burger"}
+          />
+        )
+      })}
+    </div>
+  )
+};
+
 export default MapPicture;
