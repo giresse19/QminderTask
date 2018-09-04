@@ -3,13 +3,14 @@ import React, { Component } from "react"
 import { SERVERPICURL, API_KEY, CLIENT_ID, CLIENT_SECRET, SERVERURL, VERSION, latlong, latlongbs, radius } from '../config/config.dev';
 import MapWithAMarker from '../components/map/MapWithAMarker';
 import MapPicture from '../components/map/MapPicture';
-
 /* import classes from './MapData.css' */
 
 export default class ShelterMap extends Component {
 
   constructor(props) {
+
     super(props)
+
     this.state = {
       filtered: [],
       filteredBs: [],
@@ -20,7 +21,10 @@ export default class ShelterMap extends Component {
   }
 
   componentDidMount() {
+    this.mapDataToChangeState();
+  };
 
+  mapDataToChangeState = () => {
     const Query = `Burger Joint`;
     const Url = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`;
     const Urlbs = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlongbs}&query=${Query}&v=${VERSION}&radius=${radius}`;
@@ -64,6 +68,7 @@ export default class ShelterMap extends Component {
               }
               if (!matchFound) {
                 filteredData.push(MoreVenues[i]);
+
                 // getting images of latest joints base on their id prop
                 async function fetchAsyncPic() {
                   let response = await fetch(`${SERVERPICURL}/${MoreVenues[i].id}/photos?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`);
@@ -87,6 +92,7 @@ export default class ShelterMap extends Component {
             })
           })
       })
+
   }
 
   handleClick = (marker, event) => {
@@ -94,9 +100,9 @@ export default class ShelterMap extends Component {
   }
 
   render() {
-
+    
     return (
-      <div style={{height: '90%', width: '100%' }}>
+      <div style={{ height: '90%', width: '100%' }}>
         <div style={{ height: '500px', width: '100%', display: 'flex', flexFlow: 'row nowrap' }} >
           <MapWithAMarker
             selectedMarker={this.state.selectedMarker}
@@ -110,7 +116,7 @@ export default class ShelterMap extends Component {
             circles={this.state.filteredBs}
           />
         </div>
-        <div style={{display: 'flex', flexDirection: 'row', width: '100%', margin: '15px' }}  >
+        <div style={{ display: 'flex', flexDirection: 'row', width: '100%', margin: '15px' }}  >
           <MapPicture
             pictures={this.state.latestPicture}
           />
