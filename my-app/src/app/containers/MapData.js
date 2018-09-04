@@ -21,10 +21,11 @@ export default class ShelterMap extends Component {
   }
 
   componentDidMount() {
-    this.mapDataToChangeState();
+    this.getDataToChangeState();
   };
 
-  mapDataToChangeState = () => {
+  getDataToChangeState = () => {
+    
     const Query = `Burger Joint`;
     const Url = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`;
     const Urlbs = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlongbs}&query=${Query}&v=${VERSION}&radius=${radius}`;
@@ -100,7 +101,7 @@ export default class ShelterMap extends Component {
   }
 
   render() {
-    
+
     return (
       <div style={{ height: '90%', width: '100%' }}>
         <div style={{ height: '500px', width: '100%', display: 'flex', flexFlow: 'row nowrap' }} >
