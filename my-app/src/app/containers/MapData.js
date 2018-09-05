@@ -7,135 +7,119 @@ import classes from './MapData.css'
 
 export default class ShelterMap extends Component {
 
-  constructor(props) {
+    constructor(props) {
 
-    super(props)
+        super(props)
 
-    this.state = {
-      filtered: [],
-      filteredBs: [],
-      latestPicture: [],
-      selectedMarker: false,
-      defaultZoom: 12
+        this.state = {
+            filtered: [],
+            filteredBs: [],
+            latestPicture: [],
+            selectedMarker: false,
+            defaultZoom: 12
+        }
+
+        this.handleClick = this.handleClick.bind(this);
     }
-  }
 
-  componentDidMount() {
-    this.getDataToChangeState();
-  };
+    componentDidMount() {
+        this.getDataToChangeState();
+    };
 
-  getDataToChangeState = () => {
+    getDataToChangeState = async () => {
 
-    const Query = `Burger Joint`;
-    const Url = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`;
-    const Urlbs = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlongbs}&query=${Query}&v=${VERSION}&radius=${radius}`;
+        const Query = `Burger Joint`;
+        const Url = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`;
+        const Urlbs = `${SERVERURL}?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlongbs}&query=${Query}&v=${VERSION}&radius=${radius}`;
 
-    var self = this;
-    let dataBs = null;
-    let dataT = null;
-
-    fetch(Url)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (json) {
-        dataT = json;
-      })
-      .then(function () {
-
+        let dataBs = null;
+        let dataT = null;
+        let data = null;
         let filteredData = [];
         let filteredDataBs = [];
         let latestPics = [];
 
-        fetch(Urlbs)
-          .then(function (response1) {
-            return response1.json();
-          })
-          .then(function makeMap(json1) {
-            dataBs = json1;
-            let MoreVenues = dataT.response.venues;
-            let smallVenues = dataBs.response.venues;
-            
+        try {
+            let response = await fetch(Url)
+            dataT = await response.json();
+        } catch (err) { console.log(err) }
 
-            // getting data for joints out of 1000m from bus station
+        try {
+            let response1 = await fetch(Urlbs)
+            dataBs = await response1.json();
+        } catch (err) { console.log(err) }
 
-            for (var i = 0; i < MoreVenues.length; i++) {
-              let matchFound = false;
-              for (var j = 0; j < smallVenues.length; j++) {
+        let MoreVenues = dataT.response.venues;
+        let smallVenues = dataBs.response.venues;
+
+        // getting data for joints out of 1000m from bus station
+        for (let i = 0; i < MoreVenues.length; i++) {
+            let matchFound = false;
+            for (let j = 0; j < smallVenues.length; j++) {
                 if (smallVenues[j].id === MoreVenues[i].id) {
-                  matchFound = true;
-                  filteredDataBs.push(smallVenues[j]);
-                  break;
+                    matchFound = true;
+                    filteredDataBs.push(smallVenues[j]);
+                    break;
                 }
-              }
-              if (!matchFound) {
-                filteredData.push(MoreVenues[i]);
-
-                // getting images of latest joints base on their id prop
-                async function fetchAsyncPic() {
-                  let response = await fetch(`${SERVERPICURL}/${MoreVenues[i].id}/photos?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`);
-                  let data = await response.json();
-                  return data;
-                }
-                fetchAsyncPic()
-                  .then((data) => {
-                    if (data.response.photos.count > 0) {
-                      latestPics.push(data.response.photos.items[0]);
-                      latestPics.push(data.response.photos.items[0]);
-                      latestPics.push(data.response.photos.items[0]);
-                      latestPics.push(data.response.photos.items[0]);
-                      latestPics.push(data.response.photos.items[0]);
-                      latestPics.push(data.response.photos.items[0]);
-                      latestPics.push(data.response.photos.items[0]);
-
-                      /*       console.log('storing pictures');
-                            console.log(latestPics); */
-                    }
-                  })
-                  .catch(reason => console.log(reason.message))
-              }
             }
+            if (!matchFound) {
+                filteredData.push(MoreVenues[i]);
+              
+                // getting images off latest joints base on their id prop 
+                try {
+                    let responsePic = await fetch(`${SERVERPICURL}/${MoreVenues[i].id}/photos?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`);
+                    data = await responsePic.json();         
+                } catch (err) { console.log(err) }            
+           
+            if (data.response.photos.count > 0) {
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+                latestPics.push(data.response.photos.items[0]);
+            }            
+        }}
+                
+        this.setState({
+            filtered: [...this.state.filtered, ...filteredData],
+            latestPicture: [...this.state.latestPicture, ...latestPics],
+            filteredBs: [...this.state.filteredBs, ...filteredDataBs]
+        })
+    }
 
-            console.log('printing pictures before render');
-            console.log(latestPics);
+    handleClick = (marker) => {
+        this.setState({ selectedMarker: marker })
+    }
 
-            self.setState({
-              filtered: filteredData,
-              latestPicture: latestPics,
-              filteredBs: filteredDataBs
-            })
-          })
-      })
-
-  }
-
-  handleClick = (marker, event) => {
-    this.setState({ selectedMarker: marker })
-  }
-
-  render() {
-
-    return (
-      <div className={classes.mainContainer} >
-        <div className={classes.mapContainer}>
-          <MapWithAMarker
-            selectedMarker={this.state.selectedMarker}
-            markers={this.state.filtered}
-            defaultZoom={this.state.defaultZoom}
-            onClick={this.handleClick}
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-            loadingElement={<div style={{ height: `100%`, }} />}
-            containerElement={<div style={{ height: `100%`, width: "100%" }} />}
-            mapElement={<div style={{ height: `100%`, }} />}
-            circles={this.state.filteredBs}
-          />
-        </div>
-        <div className={classes.picContainer} >
-          <MapPicture
-            pictures={this.state.latestPicture}
-          />
-        </div>
-      </div>
-    )
-  }
+    render() {
+        return (
+            <div className={classes.mainContainer} >
+                <div className={classes.mapContainer}>
+                    <MapWithAMarker
+                        selectedMarker={this.state.selectedMarker}
+                        markers={this.state.filtered}
+                        defaultZoom={this.state.defaultZoom}
+                        onClick={this.handleClick}
+                        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+                        loadingElement={<div style={{ height: `100%`, }} />}
+                        containerElement={<div style={{ height: `100%`, width: "100%" }} />}
+                        mapElement={<div style={{ height: `100%`, }} />}
+                        circles={this.state.filteredBs}
+                    />
+                </div>
+                <div className={classes.picContainer} >
+                    <MapPicture
+                        pictures={this.state.latestPicture}
+                    />
+                </div>
+            </div>
+        )
+    }
 }
