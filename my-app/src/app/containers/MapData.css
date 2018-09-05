@@ -16,3 +16,8 @@
       margin: 15px;
       margin-left: -1px;
 }
+
+@media  (max-width: 450px) {
+    .mainContainer { padding: 0px } 
+    .picContainer {padding: 2px}   
+}
