@@ -41,13 +41,10 @@ export default class ShelterMap extends Component {
 
         try {
             let response = await fetch(Url)
-            dataT = await response.json();
-        } catch (err) { console.log(err) }
+            dataT = await response.json();   
 
-        try {
             let response1 = await fetch(Urlbs)
-            dataBs = await response1.json();
-        } catch (err) { console.log(err) }
+            dataBs = await response1.json();        
 
         let MoreVenues = dataT.response.venues;
         let smallVenues = dataBs.response.venues;
@@ -63,14 +60,11 @@ export default class ShelterMap extends Component {
                 }
             }
             if (!matchFound) {
-                filteredData.push(MoreVenues[i]);
-              
-                // getting images off latest joints base on their id prop 
-                try {
+                filteredData.push(MoreVenues[i]);              
+                // getting images off latest joints base on their id prop                
                     let responsePic = await fetch(`${SERVERPICURL}/${MoreVenues[i].id}/photos?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&ll=${latlong}&query=${Query}&v=${VERSION}`);
-                    data = await responsePic.json();         
-                } catch (err) { console.log(err) }            
-           
+                    data = await responsePic.json();       
+              
             if (data.response.photos.count > 0) {
                 latestPics.push(data.response.photos.items[0]);
                 latestPics.push(data.response.photos.items[0]);
@@ -85,7 +79,7 @@ export default class ShelterMap extends Component {
                 latestPics.push(data.response.photos.items[0]);
                 latestPics.push(data.response.photos.items[0]);
             }            
-        }}
+        }}} catch (err) { console.log(err) }
                 
         this.setState({
             filtered: [...this.state.filtered, ...filteredData],
