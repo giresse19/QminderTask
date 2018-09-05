@@ -1,5 +1,7 @@
 # Qminder
 
+Find the app at: https://qminder-1535486514062.firebaseapp.com/
+
 Qminder Front-end Challenge Build with React.js and JavaScript.
 
 ## Getting started
@@ -17,4 +19,5 @@ Please make sure that you have Node 6 or above. You can check by running `node -
 ```
 
 1. The start script will build Qminder and boot up a server at `localhost:3000`.
+
 
