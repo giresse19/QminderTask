@@ -6,7 +6,7 @@ Qminder Front-end Challenge Build with React.js and JavaScript.
 
 ## Getting started
 
-Please make sure that you have Node 6 or above. You can check by running `node --version` in your terminal. If your node version is older, please update to the latest Node (v6.2+ as of this writing).
+Please make sure that you have Node 6 or above. You can check by running `node --version` in your terminal. If your node version is older, please update to the latest Node (v8.11+ as of this writing).
 
 1. Clone this repository.
 2. cd into my-app
